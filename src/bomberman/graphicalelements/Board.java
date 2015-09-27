@@ -4,10 +4,7 @@ import bomberman.graphicalelements.tiles.Empty;
 import bomberman.graphicalelements.tiles.Obstacle;
 import bomberman.graphicalelements.tiles.Tile;
 import bomberman.graphicalelements.tiles.Wall;
-import org.newdawn.slick.Color;
-import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Graphics;
-import org.newdawn.slick.SlickException;
+import org.newdawn.slick.*;
 import org.newdawn.slick.state.StateBasedGame;
 
 /**
@@ -36,13 +33,25 @@ public class Board implements GraphicalElement {
         }
 
         players = new Player[2];
-        players[0] = new Player(tiles[0][0], new Color(255, 0, 0));
-        players[1] = new Player(tiles[width - 1][height - 1], new Color(0, 0, 255));
+        players[0] = new Player(this, (Empty)tiles[0][0], new Color(255, 0, 0));
+        players[1] = new Player(this, (Empty)tiles[height - 1][width - 1], new Color(0, 0, 255));
+    }
+
+    public Tile getTile(int x, int y) {
+        try {
+            return tiles[y][x];
+        }
+        catch (ArrayIndexOutOfBoundsException e) {
+            return null;
+        }
+    }
+
+    public Player getPlayer() {
+        return players[0];
     }
 
     @Override
     public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int delta) throws SlickException {
-
     }
 
     @Override
@@ -51,6 +60,10 @@ public class Board implements GraphicalElement {
             for (int x = 0; x < tiles[y].length; x++) {
                 tiles[y][x].render(gameContainer, stateBasedGame, graphics, xOffset, yOffset);
             }
+        }
+
+        for (Player player : players) {
+            player.render(gameContainer, stateBasedGame, graphics, xOffset, yOffset);
         }
     }
 

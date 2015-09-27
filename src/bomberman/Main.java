@@ -17,7 +17,7 @@ public class Main extends StateBasedGame {
     public static void main(String[] args) {
         try {
             AppGameContainer app = new AppGameContainer(new Main());
-            app.setDisplayMode(1080, 720, false);
+            app.setDisplayMode(1000, 1000, false);
             app.setAlwaysRender(true);
             app.setTargetFrameRate(60);
             app.setMinimumLogicUpdateInterval(10);
