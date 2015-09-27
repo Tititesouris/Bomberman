@@ -1,6 +1,6 @@
-package bomberman;
+package bomberman.graphicalelements;
 
-import bomberman.tiles.Tile;
+import bomberman.graphicalelements.tiles.Tile;
 import org.newdawn.slick.Color;
 
 /**
