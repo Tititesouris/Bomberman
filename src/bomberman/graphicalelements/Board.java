@@ -52,6 +52,11 @@ public class Board implements GraphicalElement {
 
     @Override
     public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int delta) throws SlickException {
+        for (int y = 0; y < tiles.length; y++) {
+            for (int x = 0; x < tiles[y].length; x++) {
+                tiles[y][x].update(gameContainer, stateBasedGame, delta);
+            }
+        }
     }
 
     @Override
@@ -60,10 +65,6 @@ public class Board implements GraphicalElement {
             for (int x = 0; x < tiles[y].length; x++) {
                 tiles[y][x].render(gameContainer, stateBasedGame, graphics, xOffset, yOffset);
             }
-        }
-
-        for (Player player : players) {
-            player.render(gameContainer, stateBasedGame, graphics, xOffset, yOffset);
         }
     }
 

@@ -1,6 +1,6 @@
 package bomberman.graphicalelements.tiles;
 
-import bomberman.graphicalelements.Items.Bomb;
+import bomberman.graphicalelements.Bomb;
 import bomberman.graphicalelements.Player;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -16,6 +16,8 @@ public class Empty extends Tile {
     private Player player;
 
     private Bomb bomb;
+
+    private int explosion;
 
     public Empty(int x, int y) {
         super(x, y, Tool.getImage("/res/empty.png"));
@@ -45,8 +47,15 @@ public class Empty extends Tile {
         return bomb != null;
     }
 
+    public void explode(int range) {
+        bomb = null;
+    }
+
     @Override
     public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int delta) throws SlickException {
+        if (hasBomb()) {
+            bomb.update(gameContainer, stateBasedGame, delta);
+        }
         if (hasPlayer()) {
             player.update(gameContainer, stateBasedGame, delta);
         }
@@ -57,6 +66,9 @@ public class Empty extends Tile {
         super.render(gameContainer, stateBasedGame, graphics, xOffset, yOffset);
         if (hasBomb()) {
             bomb.render(gameContainer, stateBasedGame, graphics, xOffset + x * 64, yOffset + y * 64);
+        }
+        if (hasPlayer()) {
+            player.render(gameContainer, stateBasedGame, graphics, xOffset + x * 64, yOffset + y * 64);
         }
     }
 

@@ -1,6 +1,5 @@
 package bomberman.graphicalelements;
 
-import bomberman.graphicalelements.Items.Bomb;
 import bomberman.graphicalelements.tiles.Empty;
 import bomberman.graphicalelements.tiles.Tile;
 import org.newdawn.slick.*;
@@ -49,11 +48,12 @@ public class Player implements GraphicalElement {
 
     @Override
     public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int delta) throws SlickException {
+
     }
 
     @Override
     public void render(GameContainer gameContainer, StateBasedGame stateBasedGame, Graphics graphics, int xOffset, int yOffset) throws SlickException {
-        sprite.draw(xOffset + tile.getX() * 64, yOffset + tile.getY() * 64, 64, 64, color);
+        sprite.draw(xOffset, yOffset, 64, 64, color);
     }
 
     @Override
