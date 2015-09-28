@@ -33,6 +33,9 @@ public class Game extends BasicGameState {
                     case 'd':
                         board.getPlayer().move(1, 0);
                         break;
+                    case ' ':
+                        board.getPlayer().placeBomb();
+                        break;
                 }
             }
 

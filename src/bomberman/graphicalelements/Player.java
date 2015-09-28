@@ -1,5 +1,6 @@
 package bomberman.graphicalelements;
 
+import bomberman.graphicalelements.Items.Bomb;
 import bomberman.graphicalelements.tiles.Empty;
 import bomberman.graphicalelements.tiles.Tile;
 import org.newdawn.slick.*;
@@ -33,6 +34,14 @@ public class Player implements GraphicalElement {
             tile.setPlayer(null);
             tile = (Empty) target;
             tile.setPlayer(this);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean placeBomb() {
+        if (!tile.hasBomb()) {
+            tile.setBomb(new Bomb(tile));
             return true;
         }
         return false;
