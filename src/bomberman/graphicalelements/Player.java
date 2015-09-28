@@ -19,12 +19,18 @@ public class Player implements GraphicalElement {
 
     private Image sprite;
 
+    private int lives;
+
+    private int invincibility;
+
     public Player(Board board, Empty tile, Color color) {
         this.board = board;
         this.tile = tile;
         tile.setPlayer(this);
         this.color = color;
         this.sprite = Tool.getImage("/res/player.png");
+        this.lives = 3;
+        this.invincibility = 1000;
     }
 
     public boolean move(int xDir, int yDir) {
@@ -33,6 +39,9 @@ public class Player implements GraphicalElement {
             tile.setPlayer(null);
             tile = (Empty) target;
             tile.setPlayer(this);
+            if (tile.isExploding() && invincibility <= 0) {
+                explode();
+            }
             return true;
         }
         return false;
@@ -46,14 +55,29 @@ public class Player implements GraphicalElement {
         return false;
     }
 
+    public void explode() {
+        lives--;
+        invincibility = 3000;
+        if (lives <= 0) {
+            System.exit(0);
+        }
+    }
+
     @Override
     public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int delta) throws SlickException {
-
+        if (invincibility > 0) {
+            invincibility -= delta;
+        }
     }
 
     @Override
     public void render(GameContainer gameContainer, StateBasedGame stateBasedGame, Graphics graphics, int xOffset, int yOffset) throws SlickException {
-        sprite.draw(xOffset, yOffset, 64, 64, color);
+        if (invincibility > 0) {
+            sprite.draw(xOffset, yOffset, 64, 64, color.multiply(new Color(1, 1, 1, 0.5f)));
+        }
+        else {
+            sprite.draw(xOffset, yOffset, 64, 64, color);
+        }
     }
 
     @Override

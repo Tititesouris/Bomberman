@@ -45,7 +45,6 @@ public class Bomb implements GraphicalElement {
         else {
             sprite.draw(xOffset, yOffset, 64, 64);
         }
-        //graphics.drawString("" + countdown / 1000, xOffset + 32, yOffset + 32);
     }
 
 }

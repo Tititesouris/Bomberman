@@ -19,6 +19,8 @@ public class Empty extends Tile {
 
     private Bomb bomb;
 
+    protected int explosion;
+
     private Image explosionSprite;
 
     public Empty(Board board, int x, int y) {
@@ -50,6 +52,10 @@ public class Empty extends Tile {
         return bomb != null;
     }
 
+    public boolean isExploding() {
+        return explosion > 0;
+    }
+
     public void explode(int range, int xDir, int yDir) {
         bomb = null;
         explosion = 2000;
@@ -78,7 +84,9 @@ public class Empty extends Tile {
 
     @Override
     public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int delta) throws SlickException {
-        super.update(gameContainer, stateBasedGame, delta);
+        if (explosion > 0) {
+            explosion -= delta;
+        }
         if (hasBomb()) {
             bomb.update(gameContainer, stateBasedGame, delta);
         }

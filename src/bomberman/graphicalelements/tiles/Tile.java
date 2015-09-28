@@ -18,8 +18,6 @@ public abstract class Tile implements GraphicalElement {
 
     protected int x, y;
 
-    protected int explosion;
-
     private Image sprite;
 
     public Tile(Board board, int x, int y, Image sprite) {
@@ -48,7 +46,6 @@ public abstract class Tile implements GraphicalElement {
 
     @Override
     public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int delta) throws SlickException {
-        explosion -= delta;
     }
 
     @Override
