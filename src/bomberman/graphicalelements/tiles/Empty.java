@@ -73,7 +73,12 @@ public class Empty extends Tile {
         for (Tile tile : getNeighbors()) {
             if (tile != null) {
                 if (tile instanceof Empty) {
-                    ((Empty) tile).explode(2, tile.y - x, tile.y - y);
+                    if (((Empty) tile).hasBomb()) {
+                        ((Empty) tile).explode();
+                    }
+                    else {
+                        ((Empty) tile).explode(0, tile.x - x, tile.y - y);
+                    }
                 }
                 else if (tile instanceof Obstacle) {
                     board.explode(tile.x, tile.y);
