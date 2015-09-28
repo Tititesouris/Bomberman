@@ -46,6 +46,7 @@ public class Player implements GraphicalElement {
     public boolean move(int xDir, int yDir) {
         Tile target = board.getTile(tile.getX() + xDir, tile.getY() + yDir);
         if (target != null && target instanceof Empty && !((Empty) target).hasBomb()) {
+            System.out.println(target);
             this.target = (Empty)target;
             return true;
         }
@@ -84,9 +85,12 @@ public class Player implements GraphicalElement {
         if (invincibility > 0) {
             invincibility -= delta;
         }
-        x += (target.getX() - tile.getX()) * speed * delta;
-        y += (target.getY() - tile.getY()) * speed * delta;
-        if (Math.abs(target.getX() - x) < speed && Math.abs(target.getY() - y) < speed) {
+
+        if (Math.abs(tile.getX() - x) <= 1 && Math.abs(tile.getY() - y) <= 1) {
+            x += (target.getX() - tile.getX()) * speed * delta;
+            y += (target.getY() - tile.getY()) * speed * delta;
+        }
+        else {
             land();
         }
     }
