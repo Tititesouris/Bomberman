@@ -1,8 +1,6 @@
 package bomberman.graphicalelements.tiles;
 
-import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.SlickException;
-import org.newdawn.slick.state.StateBasedGame;
+import bomberman.graphicalelements.Board;
 import tools.Tool;
 
 /**
@@ -10,13 +8,8 @@ import tools.Tool;
  */
 public class Wall extends Tile {
 
-    public Wall(int x, int y) {
-        super(x, y, Tool.getImage("/res/wall.png"));
-    }
-
-    @Override
-    public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int delta) throws SlickException {
-
+    public Wall(Board board, int x, int y) {
+        super(board, x, y, Tool.getImage("/res/wall.png"));
     }
 
     @Override

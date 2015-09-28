@@ -21,13 +21,13 @@ public class Board implements GraphicalElement {
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
                 if (x % 2 == 1 && y % 2 == 1) {
-                    tiles[y][x] = new Wall(x, y);
+                    tiles[y][x] = new Wall(this, x, y);
                 }
                 else if (x <= 1 && y <= 1 || width - 2 <= x && height - 2 <= y) {
-                    tiles[y][x] = new Empty(x, y);
+                    tiles[y][x] = new Empty(this, x, y);
                 }
                 else {
-                    tiles[y][x] = new Obstacle(x, y);
+                    tiles[y][x] = new Obstacle(this, x, y);
                 }
             }
         }
@@ -48,6 +48,11 @@ public class Board implements GraphicalElement {
 
     public Player getPlayer() {
         return players[0];
+    }
+
+    public void explode(int x, int y) {
+        tiles[y][x] = new Empty(this, x, y);
+        ((Empty) tiles[y][x]).explode(0, 0, 0);
     }
 
     @Override

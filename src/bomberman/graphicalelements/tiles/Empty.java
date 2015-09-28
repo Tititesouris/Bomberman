@@ -1,9 +1,11 @@
 package bomberman.graphicalelements.tiles;
 
+import bomberman.graphicalelements.Board;
 import bomberman.graphicalelements.Bomb;
 import bomberman.graphicalelements.Player;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 import tools.Tool;
@@ -17,10 +19,11 @@ public class Empty extends Tile {
 
     private Bomb bomb;
 
-    private int explosion;
+    private Image explosionSprite;
 
-    public Empty(int x, int y) {
-        super(x, y, Tool.getImage("/res/empty.png"));
+    public Empty(Board board, int x, int y) {
+        super(board, x, y, Tool.getImage("/res/empty.png"));
+        this.explosionSprite = Tool.getImage("/res/explosion.png");
     }
 
     public Player getPlayer() {
@@ -47,12 +50,35 @@ public class Empty extends Tile {
         return bomb != null;
     }
 
-    public void explode(int range) {
+    public void explode(int range, int xDir, int yDir) {
         bomb = null;
+        explosion = 2000;
+        if (range > 0) {
+            Tile tile = board.getTile(x + xDir, y + yDir);
+            if (tile != null && tile instanceof Empty) {
+                ((Empty) tile).explode(range - 1, xDir, yDir);
+            }
+        }
+    }
+
+    public void explode() {
+        bomb = null;
+        explosion = 2000;
+        for (Tile tile : getNeighbors()) {
+            if (tile != null) {
+                if (tile instanceof Empty) {
+                    ((Empty) tile).explode(2, tile.y - x, tile.y - y);
+                }
+                else if (tile instanceof Obstacle) {
+                    board.explode(tile.x, tile.y);
+                }
+            }
+        }
     }
 
     @Override
     public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int delta) throws SlickException {
+        super.update(gameContainer, stateBasedGame, delta);
         if (hasBomb()) {
             bomb.update(gameContainer, stateBasedGame, delta);
         }
@@ -69,6 +95,9 @@ public class Empty extends Tile {
         }
         if (hasPlayer()) {
             player.render(gameContainer, stateBasedGame, graphics, xOffset + x * 64, yOffset + y * 64);
+        }
+        if (explosion > 0) {
+            explosionSprite.draw(xOffset + x * 64, yOffset + y * 64, 64, 64);
         }
     }
 

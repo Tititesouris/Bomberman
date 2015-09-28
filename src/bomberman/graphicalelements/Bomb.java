@@ -26,7 +26,7 @@ public class Bomb implements GraphicalElement {
     }
 
     public void explode() {
-        tile.explode(3);
+        tile.explode();
     }
 
     @Override
@@ -39,8 +39,13 @@ public class Bomb implements GraphicalElement {
 
     @Override
     public void render(GameContainer gameContainer, StateBasedGame stateBasedGame, Graphics graphics, int xOffset, int yOffset) throws SlickException {
-        sprite.draw(xOffset, yOffset, 64, 64);
-        graphics.drawString("" + countdown, xOffset, yOffset);
+        if (countdown <= 1000 && countdown / 50 % 2 == 0) {
+            sprite.drawFlash(xOffset, yOffset, 64, 64);
+        }
+        else {
+            sprite.draw(xOffset, yOffset, 64, 64);
+        }
+        //graphics.drawString("" + countdown / 1000, xOffset + 32, yOffset + 32);
     }
 
 }
