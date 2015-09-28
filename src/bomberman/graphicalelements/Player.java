@@ -15,6 +15,12 @@ public class Player implements GraphicalElement {
 
     private Empty tile;
 
+    private Empty target;
+
+    private double x, y;
+
+    private double speed;
+
     private Color color;
 
     private Image sprite;
@@ -26,6 +32,10 @@ public class Player implements GraphicalElement {
     public Player(Board board, Empty tile, Color color) {
         this.board = board;
         this.tile = tile;
+        this.target = tile;
+        this.x = tile.getX();
+        this.y = tile.getY();
+        this.speed = 0.005;
         tile.setPlayer(this);
         this.color = color;
         this.sprite = Tool.getImage("/res/player.png");
@@ -36,15 +46,21 @@ public class Player implements GraphicalElement {
     public boolean move(int xDir, int yDir) {
         Tile target = board.getTile(tile.getX() + xDir, tile.getY() + yDir);
         if (target != null && target instanceof Empty && !((Empty) target).hasBomb()) {
-            tile.setPlayer(null);
-            tile = (Empty) target;
-            tile.setPlayer(this);
-            if (tile.isExploding() && invincibility <= 0) {
-                explode();
-            }
+            this.target = (Empty)target;
             return true;
         }
         return false;
+    }
+
+    public void land() {
+        tile.setPlayer(null);
+        tile = target;
+        tile.setPlayer(this);
+        x = tile.getX();
+        y = tile.getY();
+        if (tile.isExploding() && invincibility <= 0) {
+            explode();
+        }
     }
 
     public boolean placeBomb() {
@@ -68,15 +84,20 @@ public class Player implements GraphicalElement {
         if (invincibility > 0) {
             invincibility -= delta;
         }
+        x += (target.getX() - tile.getX()) * speed * delta;
+        y += (target.getY() - tile.getY()) * speed * delta;
+        if (Math.abs(target.getX() - x) < speed && Math.abs(target.getY() - y) < speed) {
+            land();
+        }
     }
 
     @Override
     public void render(GameContainer gameContainer, StateBasedGame stateBasedGame, Graphics graphics, int xOffset, int yOffset) throws SlickException {
         if (invincibility > 0) {
-            sprite.draw(xOffset, yOffset, 64, 64, color.multiply(new Color(1, 1, 1, 0.5f)));
+            sprite.draw((float) (xOffset + x * 64), (float)(yOffset + y * 64), 64, 64, color.multiply(new Color(1, 1, 1, 0.5f)));
         }
         else {
-            sprite.draw(xOffset, yOffset, 64, 64, color);
+            sprite.draw((float) (xOffset + x * 64), (float)(yOffset + y * 64), 64, 64, color);
         }
     }
 

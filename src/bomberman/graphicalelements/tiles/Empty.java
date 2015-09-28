@@ -95,9 +95,6 @@ public class Empty extends Tile {
         if (hasBomb()) {
             bomb.update(gameContainer, stateBasedGame, delta);
         }
-        if (hasPlayer()) {
-            player.update(gameContainer, stateBasedGame, delta);
-        }
     }
 
     @Override
@@ -105,9 +102,6 @@ public class Empty extends Tile {
         super.render(gameContainer, stateBasedGame, graphics, xOffset, yOffset);
         if (hasBomb()) {
             bomb.render(gameContainer, stateBasedGame, graphics, xOffset + x * 64, yOffset + y * 64);
-        }
-        if (hasPlayer()) {
-            player.render(gameContainer, stateBasedGame, graphics, xOffset + x * 64, yOffset + y * 64);
         }
         if (explosion > 0) {
             explosionSprite.draw(xOffset + x * 64, yOffset + y * 64, 64, 64);

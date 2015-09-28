@@ -62,6 +62,10 @@ public class Board implements GraphicalElement {
                 tiles[y][x].update(gameContainer, stateBasedGame, delta);
             }
         }
+
+        for (Player player : players) {
+            player.update(gameContainer, stateBasedGame, delta);
+        }
     }
 
     @Override
@@ -70,6 +74,10 @@ public class Board implements GraphicalElement {
             for (int x = 0; x < tiles[y].length; x++) {
                 tiles[y][x].render(gameContainer, stateBasedGame, graphics, xOffset, yOffset);
             }
+        }
+
+        for (Player player : players) {
+            player.render(gameContainer, stateBasedGame, graphics, xOffset, yOffset);
         }
     }
 

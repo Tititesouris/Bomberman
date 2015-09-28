@@ -2,7 +2,6 @@ package bomberman;
 
 import bomberman.graphicalelements.Board;
 import org.newdawn.slick.*;
-import org.newdawn.slick.KeyListener;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -16,58 +15,25 @@ public class Game extends BasicGameState {
     @Override
     public void init(GameContainer gameContainer, StateBasedGame stateBasedGame) throws SlickException {
         board = new Board(13, 13);
-
-        gameContainer.getInput().addKeyListener(new KeyListener() {
-            @Override
-            public void keyPressed(int i, char c) {
-                switch (c) {
-                    case 'w':
-                        board.getPlayer().move(0, -1);
-                        break;
-                    case 'a':
-                        board.getPlayer().move(-1, 0);
-                        break;
-                    case 's':
-                        board.getPlayer().move(0, 1);
-                        break;
-                    case 'd':
-                        board.getPlayer().move(1, 0);
-                        break;
-                    case ' ':
-                        board.getPlayer().placeBomb();
-                        break;
-                }
-            }
-
-            @Override
-            public void keyReleased(int i, char c) {
-
-            }
-
-            @Override
-            public void setInput(Input input) {
-
-            }
-
-            @Override
-            public boolean isAcceptingInput() {
-                return true;
-            }
-
-            @Override
-            public void inputEnded() {
-
-            }
-
-            @Override
-            public void inputStarted() {
-
-            }
-        });
     }
 
     @Override
     public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int delta) throws SlickException {
+        if (gameContainer.getInput().isKeyDown(Input.KEY_W)) {
+            board.getPlayer().move(0, -1);
+        }
+        else if (gameContainer.getInput().isKeyDown(Input.KEY_A)) {
+            board.getPlayer().move(-1, 0);
+        }
+        else if (gameContainer.getInput().isKeyDown(Input.KEY_S)) {
+            board.getPlayer().move(0, 1);
+        }
+        else if (gameContainer.getInput().isKeyDown(Input.KEY_D)) {
+            board.getPlayer().move(1, 0);
+        }
+        if (gameContainer.getInput().isKeyDown(Input.KEY_SPACE)) {
+            board.getPlayer().placeBomb();
+        }
         board.update(gameContainer, stateBasedGame, delta);
     }
 
