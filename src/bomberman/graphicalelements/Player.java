@@ -30,7 +30,7 @@ public class Player implements GraphicalElement {
 
     public boolean move(int xDir, int yDir) {
         Tile target = board.getTile(tile.getX() + xDir, tile.getY() + yDir);
-        if (target != null && target instanceof Empty) {
+        if (target != null && target instanceof Empty && !((Empty) target).hasBomb()) {
             tile.setPlayer(null);
             tile = (Empty) target;
             tile.setPlayer(this);
